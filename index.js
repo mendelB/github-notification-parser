@@ -60,6 +60,7 @@ async function parseNotifications() {
 }
 
 cron.schedule("15 * * * *", function() {
+  console.log('well here we are');
   parseNotifications();
 });
 
