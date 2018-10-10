@@ -60,9 +60,7 @@ async function parseNotifications() {
 }
 
 cron.schedule("15 * * * *", function() {
-  console.log("running a task every minute");
+  parseNotifications();
 });
 
 app.listen(3128);
-
-// parseNotifications();
