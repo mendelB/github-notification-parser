@@ -1,0 +1,20 @@
+{
+  "name": "github-notification-razor",
+  "version": "1.0.0",
+  "description": "A dead simple script to eliminate pesky Github notifications from bloated orgs you're subscribed to",
+  "main": "notification-parser.js",
+  "dependencies": {
+    "@octokit/rest": "^15.10.0",
+    "dotenv": "^6.0.0",
+    "express": "^4.16.3",
+    "fs": "0.0.1-security",
+    "node-cron": "^2.0.3",
+    "progress": "^2.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mendel Blesofsky",
+  "license": "ISC"
+}
