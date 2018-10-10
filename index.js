@@ -36,22 +36,24 @@ async function parseNotifications() {
   ));
 
   console.log(`Parsing ${extraneousNotifications.length} out of ${notifications.length} notifications`);
-  const bar = new ProgressBar(':bar :percent :current', { total: extraneousNotifications.length });
+
+  const bar = process.env.APP_ENV !== 'production' ?
+    new ProgressBar(':bar :percent :current', { total: extraneousNotifications.length }) 
+    : null;
 
   for (let i = 0; i < extraneousNotifications.length; i++) {
     const notification = extraneousNotifications[i];
-
-    bar.interrupt(
-        `Marking ${notification.subject.url} ${
+    const message = `Marking ${notification.subject.url} ${
           notification.subject.title
-        } as read.`
-    );
+        } as read.`;
+
+    bar ? bar.interrupt(message) : console.log(message);
 
     const thread = await octokit.activity.markNotificationThreadAsRead({
       thread_id: notification.id
     });
 
-    bar.tick();
+    bar && bar.tick();
 
     await new Promise(resolve => setTimeout(resolve, 200));
   }
@@ -60,8 +62,8 @@ async function parseNotifications() {
 }
 
 cron.schedule("15 * * * *", function() {
-  console.log('well here we are');
+  console.log('It\'s time! Running notification parsing process.');
   parseNotifications();
 });
 
-app.listen(3128);
+app.listen(process.env.PORT || 5000);
