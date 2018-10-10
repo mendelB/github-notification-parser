@@ -1,7 +1,4 @@
-
 const fs = require("fs");
-const cron = require("node-cron");
-const express = require("express");
 const ProgressBar = require('progress');
 const octokit = require('@octokit/rest')();
 
@@ -11,8 +8,6 @@ octokit.authenticate({
   type: 'token',
   token: process.env.GITHUB_ACCESS_TOKEN
 });
-
-app = express();
 
 // Pagination method, so we can fetch all notifications at once.
 async function paginate(method) {
@@ -61,9 +56,4 @@ async function parseNotifications() {
   console.log(`Fin. Marked ${extraneousNotifications.length} notifications as read! 😌`)
 }
 
-cron.schedule("15 * * * *", function() {
-  console.log('It\'s time! Running notification parsing process.');
-  parseNotifications();
-});
-
-app.listen(process.env.PORT || 5000);
+parseNotifications();
