@@ -44,14 +44,16 @@ async function parseNotifications() {
 
     bar ? bar.interrupt(message) : console.log(message);
 
-    // const thread = await octokit.activity.markNotificationThreadAsRead({
-    //   thread_id: notification.id
-    // });
-
-    const thread = await octokit.activity.setRepoSubscription({
+    // Ignore further notifications from this repo entirely.
+    await octokit.activity.setRepoSubscription({
       owner: notification.repository.owner.login,
       repo: notification.repository.name,
       ignored: true,
+    });
+
+    // Mark the notification as read.
+    await octokit.activity.markNotificationThreadAsRead({
+      thread_id: notification.id
     });
 
     bar && bar.tick();
